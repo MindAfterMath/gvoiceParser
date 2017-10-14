@@ -37,3 +37,8 @@ def writeXML(records, filename, ownerName, ownerNumber):
             count += 1;    
     fout.write('</smses>\n');
     fout.close();
+
+def getEpoch(time):
+    utc_time = datetime.datetime.strptime(str(time), "%Y-%m-%d %H:%M:%S")
+    epoch_time = (utc_time - datetime.datetime(1970, 1, 1)).total_seconds()
+    return str(math.floor(epoch_time))
