@@ -1,18 +1,21 @@
 def writeXML(records, filename, ownerName, ownerNumber):
 #This is an XML version I added to make this compatible with the SMS Backup and Restore tools since 
 #I was having problems creating databases and interacting with the SQLLite on my android.
-    records2 = ExplodeTextRecords(records)
     #in the version I downloaded, he was changing records with the ExplodeTextRecords, causing the need to re-run the entire program again. 
     #Instead, I created a copy of records (in this version its inside the function, but previous versions had it outside) mainly for testing. 
     
     fout = open(filename, "w");
     fout.write("<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n");
     fout.write('<?xml-stylesheet type="text/xsl" href="sms.xsl"?>\n');
-
-    fout.write('<smses count="' + str(len(records)) + '">');
-    #I need to better automate the count because (I think) that plays a large part in the tool recognizing the records.
     
-    for i in records2:
+    for i in records:
+        if (str(type(i)).find("TextConversationList") != -1):
+            for j in i:
+                count += 1;
+        
+    fout.write('<smses count="' + str(count) + '">');
+    
+    for i in records:
 #        print(count, isinstance(i,TextRecord), isinstance(i,TextConversationList), type(i))
 #        This print statement was checking the types. I was having problems getting the if statement to correctly get the type/isinstance working
 #        so instead I used a roundabout way. 
